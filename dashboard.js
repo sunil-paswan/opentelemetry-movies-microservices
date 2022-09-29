@@ -5,9 +5,10 @@ const provider = new NodeTracerProvider()
 const consoleExporter = new ConsoleSpanExporter()
 const spanProcessor = new SimpleSpanProcessor(consoleExporter)
 provider.addSpanProcessor(spanProcessor)
-
+const ZIPKIN = process.env.ZIPKIN_HOST
+const MOVIE = process.env.MOVIES_HOST || 'localhost'
 const zipkinExporter = new ZipkinExporter({
-  url: 'http://localhost:9411/api/v2/spans',
+  url: `http://${ZIPKIN}:9411/api/v2/spans`,
   serviceName: 'dashboard-service'
 })
 
@@ -29,7 +30,7 @@ const getUrlContents = (url, fetch) => {
 
 app.get('/dashboard', async (req, res) => {
   //fetch data running from second service
-  const movies = await getUrlContents('http://localhost:3000/movies', require('node-fetch'))
+  const movies = await getUrlContents(`http://${MOVIE}:3000/movies`, require('node-fetch'))
   res.type('json')
   res.send(JSON.stringify({ dashboard: movies }))
 

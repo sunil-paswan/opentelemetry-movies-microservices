@@ -6,9 +6,9 @@ const consoleExporter = new ConsoleSpanExporter()
 const spanProcessor = new SimpleSpanProcessor(consoleExporter)
 provider.addSpanProcessor(spanProcessor)
 provider.register()
-
+const ZIPKIN = process.env.ZIPKIN_HOST
 const zipkinExporter = new ZipkinExporter({
-  url: 'http://localhost:9411/api/v2/spans',
+  url: `http://${ZIPKIN}:9411/api/v2/spans`,
   serviceName: 'movies-service'
 })
 

@@ -1,0 +1,7 @@
+FROM node:18.10-alpine
+WORKDIR /usr/src/app
+COPY package*.json ./
+COPY movies.js ./
+RUN npm i
+EXPOSE 3000
+CMD [ "node", "movies.js" ]
